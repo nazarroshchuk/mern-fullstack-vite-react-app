@@ -19,13 +19,10 @@ const Avatar: React.FC<AvatarProps> = ({
 }) => {
   return (
     <div className={`avatar ${className}`} style={style}>
-      <img
-        src={image}
-        alt={alt}
-        style={{ width: width, height: width }}
-      />
+      <img src={image} alt={alt} style={{ width: width, height: width }} />
     </div>
   );
 };
 
+// Test comment to trigger Husky hook
 export default Avatar;
