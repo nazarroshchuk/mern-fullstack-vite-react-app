@@ -2,13 +2,27 @@ import React from 'react';
 
 import './Avatar.css';
 
-const Avatar = props => {
+interface AvatarProps {
+    className?: string;
+    style?: React.CSSProperties;
+    image: string;
+    alt: string;
+    width: string | number;
+}
+
+const Avatar:React.FC<AvatarProps> = ( {
+    className,
+    style,
+    image,
+    alt,
+    width
+}) => {
   return (
-    <div className={`avatar ${props.className}`} style={props.style}>
+    <div className={`avatar ${className}`} style={style}>
       <img
-        src={props.image}
-        alt={props.alt}
-        style={{ width: props.width, height: props.width }}
+        src={image}
+        alt={alt}
+        style={{ width: width, height: width }}
       />
     </div>
   );
