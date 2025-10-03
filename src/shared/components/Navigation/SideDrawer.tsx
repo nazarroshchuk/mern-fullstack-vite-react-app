@@ -32,7 +32,7 @@ const SideDrawer: React.FC<SideDrawerProps> = ({ children, show, onClose }) => {
         </CSSTransition>
     );
 
-  return  ReactDOM.createPortal(content, document.getElementById('drawer-hook')!);
+  return  ReactDOM.createPortal(content, document.getElementById('drawer-portal')!);
 }
 
 export default SideDrawer;

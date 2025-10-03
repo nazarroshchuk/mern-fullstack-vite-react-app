@@ -2,8 +2,9 @@ import {BrowserRouter as Router, Route, Routes, Navigate} from "react-router-dom
 
 import './App.css'
 import Users from "./user/pages/Users";
-import NewPlaces from "./places/pages/NewPlaces";
+import NewPlace from "./places/pages/NewPlace";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import UserPlaces from "./places/pages/UserPlaces";
 
 function App() {
 
@@ -14,8 +15,8 @@ function App() {
           <main>
               <Routes>
                   <Route path="/" element={ <Users />} />
-                  <Route path='/places' element={ <NewPlaces />} />
-                  <Route path='/:id/places' element={ <NewPlaces />} />
+                  <Route path='/:userId/places' element={ <UserPlaces />} />
+                  <Route path='/places/new' element={ <NewPlace />} />
                   <Route path="*" element={<Navigate to="/" />} />
               </Routes>
           </main>

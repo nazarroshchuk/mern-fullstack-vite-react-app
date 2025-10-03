@@ -6,16 +6,26 @@ const NavLinks = () => {
     return (
         <ul className="nav-links">
             <li>
-                <NavLink to="/">All users</NavLink>
+                <NavLink to="/">
+                    <span>All users</span>
+                </NavLink>
             </li>
             <li>
-                <NavLink to="/u1/places">My places</NavLink>
+                <NavLink to="/u1/places">
+                    <span>My place</span>
+                </NavLink>
             </li>
             <li>
-                <NavLink to="/places/new">Add place</NavLink>
+                <NavLink to="/places/new">
+                   <span>Add place</span>
+                </NavLink>
             </li>
             <li>
-                <NavLink to="/auth">Authenticate</NavLink>
+                <NavLink to="/auth">
+                    <span>
+                        Authenticate
+                    </span>
+                </NavLink>
             </li>
         </ul>
     )

@@ -26,6 +26,12 @@ const UserItem: React.FC<UserItemProps> = ({
                     <h2>{name}</h2>
                     <h3>{placeCount} {placeCount === 1 ? "Place" : "Places"}</h3>
                 </div>
+                <div className="user-item__hover-content">
+                    <h2>
+                        Card Component
+                    </h2>
+                    <p>This is a reusable card component.</p>
+                </div>
             </Link>
         </Card>
     </li>;
