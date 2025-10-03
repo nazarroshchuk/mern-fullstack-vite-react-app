@@ -1,7 +1,7 @@
 import Input from '../../shared/components/FormElements/Input';
+import { VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH } from '../../utils/utils';
 
 import './NewPlace.css';
-import { VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH } from '../../utils/utils';
 
 const NewPlace = () => {
   return (

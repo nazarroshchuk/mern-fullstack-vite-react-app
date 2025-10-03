@@ -10,7 +10,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pre-commit": "lint-staged"
   },
   "dependencies": {
     "@types/google.maps": "^3.58.1",
