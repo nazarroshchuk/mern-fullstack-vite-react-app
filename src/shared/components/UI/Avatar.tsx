@@ -3,18 +3,19 @@ import React from 'react';
 import './Avatar.css';
 
 interface AvatarProps {
-    className?: string;
-    style?: React.CSSProperties;
-    image: string;
-    alt: string;
-    width: string | number;
+  className?: string;
+  style?: React.CSSProperties;
+  image: string;
+  alt: string;
+  width: string | number;
 }
 
-const Avatar:React.FC<AvatarProps> = ( {className,
-    style,
-    image,
-    alt,
-    width
+const Avatar: React.FC<AvatarProps> = ({
+  className,
+  style,
+  image,
+  alt,
+  width,
 }) => {
   return (
     <div className={`avatar ${className}`} style={style}>
