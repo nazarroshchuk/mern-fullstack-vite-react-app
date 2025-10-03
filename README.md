@@ -4,8 +4,34 @@ To start project development, run:
 
 ```bash
   npm run dev
-````
- AIzaSyBZHVoGIdFIqbDgW67psC5Foi5O7i-1mJs
+```
+
+### 🚀 How to Use Formatters and Linters
+
+Format all files:
+
+```bash
+  npm run format
+```
+
+Check formatting:
+
+```bash
+  npm run format:check
+```
+
+Lint with formatting:
+
+```bash
+  npm run lint (now includes Prettier rules)
+```
+
+Auto-fix linting issues:
+
+```bash
+  npm run lint:fix
+```
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
@@ -46,15 +72,15 @@ export default defineConfig([
       // other options...
     },
   },
-])
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from 'eslint-plugin-react-x';
+import reactDom from 'eslint-plugin-react-dom';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -75,5 +101,5 @@ export default defineConfig([
       // other options...
     },
   },
-])
+]);
 ```

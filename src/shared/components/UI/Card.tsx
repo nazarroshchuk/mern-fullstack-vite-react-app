@@ -1,9 +1,9 @@
-import React, { type FC } from "react";
+import React, { type FC } from 'react';
 
 interface CardProps {
-    className?: string;
-    style?: React.CSSProperties;
-    children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
 }
 
 import './Card.css';
