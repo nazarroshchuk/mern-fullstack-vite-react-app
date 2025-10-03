@@ -10,8 +10,7 @@ interface AvatarProps {
     width: string | number;
 }
 
-const Avatar:React.FC<AvatarProps> = ( {
-    className,
+const Avatar:React.FC<AvatarProps> = ( {className,
     style,
     image,
     alt,
