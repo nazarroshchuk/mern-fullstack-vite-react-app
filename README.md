@@ -20,10 +20,10 @@ Check formatting:
   npm run format:check
 ```
 
-Lint with formatting:
+Lint with formatting: (now includes Prettier rules)
 
 ```bash
-  npm run lint (now includes Prettier rules)
+  npm run lint
 ```
 
 Auto-fix linting issues:
@@ -38,6 +38,32 @@ Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## 🚀 Services used in this project
+
+### 🚀 Google maps JS API
+
+This project uses the Google Maps JavaScript API. To enable it, follow these steps:
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2. Create a new project or select an existing one.
+3. Navigate to the "APIs & Services" section and click on "Enable APIs and Services."
+4. Search for "Maps JavaScript API" and enable it for your project.
+5. Go to the "Credentials" section and create an API key.
+6. Restrict the API key to enhance security by specifying HTTP referrers or IP addresses.
+7. Copy the API key and add it to your project's environment variables (e.g., in a `.env` file) as `VITE_GOOGLE_MAPS_API_KEY=your_api_key
+8. Use the API key in your application to load the Google Maps JavaScript API.
+9. Make sure to monitor your usage and set up billing if necessary, as the Google Maps API may have associated costs based on usage.
+10. Refer to the [Google Maps JavaScript API documentation](https://developers.google.com/maps/documentation/javascript/overview) for more details on how to use the API in your project.
+
+in your `index.html`, add the following script tag, replacing `[your_key]` with your actual API key:
+
+```
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=[your_key]=maps,marker"
+      defer
+    ></script>
+```
 
 ## React Compiler
 

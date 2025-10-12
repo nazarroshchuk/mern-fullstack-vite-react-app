@@ -35,6 +35,7 @@
   }
 }
 
+/* CSSTransition classes for modal animations */
 .modal-enter {
   transform: translateY(-10rem);
   opacity: 0;
@@ -43,7 +44,7 @@
 .modal-enter-active {
   transform: translateY(0);
   opacity: 1;
-  transition: all 200ms;
+  transition: all 200ms ease-out;
 }
 
 .modal-exit {
@@ -54,5 +55,5 @@
 .modal-exit-active {
   transform: translateY(-10rem);
   opacity: 0;
-  transition: all 200ms;
+  transition: all 200ms ease-in;
 }

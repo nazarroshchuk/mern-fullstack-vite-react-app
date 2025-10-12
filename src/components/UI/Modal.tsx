@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import './Modal.css';
 import ReactDOM from 'react-dom';
 import Backdrop from './Backdrop';
 import { CSSTransition } from 'react-transition-group';
 
+import './Modal.css';
+
 interface ModalProps {
-  onClose: () => void;
+  onClose?: () => void;
   style?: React.CSSProperties;
   headerClass?: string;
   modalClass?: string;
@@ -17,11 +18,9 @@ interface ModalProps {
   children: React.ReactNode;
   footerContent?: React.ReactNode;
   isOpen?: boolean;
-  footer?: React.ReactNode;
 }
 
 const ModalOverlay: React.FC<ModalProps> = ({
-  onClose,
   style,
   headerClass,
   modalClass,
@@ -31,20 +30,18 @@ const ModalOverlay: React.FC<ModalProps> = ({
   onSubmit,
   children,
   footerContent,
+  isOpen,
 }) => {
+  const contentRef = useRef(null);
+
   const content = (
-    <div className={`modal ${modalClass}`} style={style} onClick={onClose}>
-      <header className={`modal__header ${headerClass}`}>
+    <div className={`modal ${modalClass ?? ''}`} style={style} ref={contentRef}>
+      <header className={`modal__header ${headerClass ?? ''}`}>
         <h2>{header}</h2>
       </header>
       <form onSubmit={onSubmit ? onSubmit : e => e.preventDefault()}>
-        <div
-          className={`modal__content ${contentClass}`}
-          onClick={e => e.stopPropagation()}
-        >
-          {children}
-        </div>
-        <footer className={`modal__footer ${footerClass}`}>
+        <div className={`modal__content ${contentClass ?? ''}`}>{children}</div>
+        <footer className={`modal__footer ${footerClass ?? ''}`}>
           {footerContent}
         </footer>
       </form>
@@ -52,26 +49,26 @@ const ModalOverlay: React.FC<ModalProps> = ({
   );
 
   return ReactDOM.createPortal(
-    content,
+    <CSSTransition
+      // @ts-expect-error: Third-party library has incorrect type definitions
+      nodeRef={contentRef}
+      timeout={200}
+      classNames="modal"
+      in={isOpen}
+      mountOnEnter
+      unmountOnExit
+    >
+      {content}
+    </CSSTransition>,
     document.getElementById('modal-portal')!
   );
 };
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, ...props }) => {
-  if (!isOpen) return null;
-
+const Modal: React.FC<ModalProps> = ({ isOpen = false, onClose, ...props }) => {
   return (
     <>
       <Backdrop show={isOpen} onClick={onClose} />
-      <CSSTransition
-        timeout={200}
-        classNames="modal"
-        in={isOpen}
-        mountOnEnter
-        unmountOnExit
-      >
-        <ModalOverlay isOpen={isOpen} onClose={onClose} {...props} />
-      </CSSTransition>
+      <ModalOverlay isOpen={isOpen} {...props} />
     </>
   );
 };

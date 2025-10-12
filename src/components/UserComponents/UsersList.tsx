@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import UserItem from './UserItem';
-import Card from '../../shared/components/UI/Card';
+import Card from '../UI/Card';
 import type { UserType } from '../../types';
 
 import './UsersList.css';

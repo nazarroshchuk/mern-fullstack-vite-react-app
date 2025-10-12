@@ -7,7 +7,7 @@ interface AvatarProps {
   style?: React.CSSProperties;
   image: string;
   alt: string;
-  width: string | number;
+  width?: string | number;
 }
 
 const Avatar: React.FC<AvatarProps> = ({
@@ -19,7 +19,7 @@ const Avatar: React.FC<AvatarProps> = ({
 }) => {
   return (
     <div className={`avatar ${className}`} style={style}>
-      <img src={image} alt={alt} style={{ width: width, height: width }} />
+      <img src={image} alt={alt} style={{ width: width }} />
     </div>
   );
 };

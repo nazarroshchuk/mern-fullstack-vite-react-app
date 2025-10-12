@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 
 import classNames from 'classnames';
 
@@ -9,17 +9,16 @@ import './Input.css';
 interface InputProps {
   placeholder?: string;
   value?: string;
-  onChange?: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  onChange?: (id: string, value: string, isValid: boolean) => void;
   type?: string;
   className?: string;
   label?: string;
   element?: 'input' | 'textarea';
-  id?: string;
+  id: string;
   rows?: number;
   required?: boolean;
   validators?: ((value: string) => { isValid: boolean; errorText: string })[];
+  isValid?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -31,16 +30,27 @@ const Input: React.FC<InputProps> = ({
   rows,
   required = false,
   validators = [],
+  onChange,
+  value,
+  isValid,
 }) => {
-  const [inputState, dispatch] = useReducer(inputReducer, initialInputState);
-
-  console.log(inputState);
+  const [inputState, dispatch] = useReducer(
+    inputReducer,
+    initialInputState(value, isValid)
+  );
 
   const changeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     dispatch({ type: 'CHANGE', val: e.target.value, validators });
   };
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(id, inputState.value, inputState.isValid);
+    }
+  }, [id, onChange, inputState.value, inputState.isValid]);
+
   return (
     <div
       className={classNames('form-control', {

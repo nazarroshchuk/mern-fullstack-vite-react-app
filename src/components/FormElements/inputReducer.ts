@@ -1,4 +1,4 @@
-import { validate } from '../../../utils/utils';
+import { validate } from '../../utils/input-validators';
 
 interface InputState {
   value: string;
@@ -55,9 +55,12 @@ export const inputReducer = (
   }
 };
 
-export const initialInputState = {
-  value: '',
-  isValid: false,
+export const initialInputState = (
+  value: string | undefined,
+  isValid: boolean | undefined
+) => ({
+  value: value || '',
+  isValid: isValid || false,
   isTouched: false,
   errorText: '',
-};
+});
