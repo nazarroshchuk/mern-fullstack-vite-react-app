@@ -1,12 +1,10 @@
 import React from 'react';
 
+import type { Place } from '../../types';
+import Button from '../UI/Button';
 import Card from '../UI/Card';
 import PlaceItem from './PlaceItem';
-
-import type { Place } from '../../types';
-
 import './PlaceList.css';
-import Button from '../UI/Button';
 
 interface PlaceListProps {
   items: Place[];

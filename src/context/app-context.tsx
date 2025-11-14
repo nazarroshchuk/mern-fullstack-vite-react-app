@@ -1,12 +1,45 @@
 import { createContext } from 'react';
 
-const initialState = {
-  isLoggedIn: false,
-  userId: null as string | null,
-  login: () => {},
-  logout: () => {},
+import {
+  NOTIFICATION_TYPE,
+  type NotificationType,
+  type ShowNotificationFunction,
+} from '../types';
+
+interface AppContextInterface {
+  authentication: {
+    isLoggedIn: boolean;
+    userId: string | null;
+    login: (userId: string) => void;
+    logout: () => void;
+  };
+  notification: {
+    isOpen: boolean;
+    type: NotificationType;
+    message: string;
+    duration: number | null;
+    showNotification: ShowNotificationFunction;
+    hideNotification: () => void;
+  };
+}
+
+const initialState: AppContextInterface = {
+  authentication: {
+    isLoggedIn: false,
+    userId: null,
+    login: () => {},
+    logout: () => {},
+  },
+  notification: {
+    isOpen: false,
+    type: NOTIFICATION_TYPE.INFO as NotificationType,
+    message: '',
+    duration: null,
+    showNotification: (() => {}) as ShowNotificationFunction,
+    hideNotification: (): void => {},
+  },
 };
 
-const AuthContext = createContext(initialState);
+const AppContext = createContext<AppContextInterface>(initialState);
 
-export default AuthContext;
+export default AppContext;

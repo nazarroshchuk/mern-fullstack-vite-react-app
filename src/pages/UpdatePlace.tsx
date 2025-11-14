@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
+
 import { useParams } from 'react-router-dom';
 
-import { DUMMY_PLACES } from '../constants/dummy-data';
 import Input from '../components/FormElements/Input';
+import Button from '../components/UI/Button';
+import Card from '../components/UI/Card';
+import { DUMMY_PLACES } from '../constants/dummy-data';
+import useFormHook from '../hooks/useFormHook';
 import {
   VALIDATOR_MAXLENGTH,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from '../utils/input-validators';
-import Button from '../components/UI/Button';
-
-import useFormHook from '../hooks/useFormHook';
-import Card from '../components/UI/Card';
-
 import './UpdatePlace.css';
 
 const UpdatePlace = () => {

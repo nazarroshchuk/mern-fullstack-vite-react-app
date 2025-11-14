@@ -1,11 +1,13 @@
 import { useContext } from 'react';
+
 import { Navigate, Route, Routes } from 'react-router-dom';
-import AuthContext from '../context/auth-context';
+
+import AppContext from '../context/app-context';
 import { getRoutes } from '../utils/routing-helpers';
 
 const AppRoutes = () => {
-  const auth = useContext(AuthContext);
-  const routes = getRoutes(auth.isLoggedIn);
+  const { authentication } = useContext(AppContext);
+  const routes = getRoutes(authentication.isLoggedIn);
 
   return (
     <Routes>

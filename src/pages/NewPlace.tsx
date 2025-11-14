@@ -1,14 +1,29 @@
+import { useContext } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import Input from '../components/FormElements/Input';
+import Button from '../components/UI/Button';
+import AppContext from '../context/app-context';
+import useFormHook from '../hooks/useFormHook';
+import { useQueryMutateHook } from '../hooks/useQueryMutateHook';
+import { placeServices } from '../services/place-services';
+import type { PlaceType } from '../types/data-types';
 import {
   VALIDATOR_MAXLENGTH,
   VALIDATOR_MINLENGTH,
 } from '../utils/input-validators';
-import Button from '../components/UI/Button';
-import useFormHook from '../hooks/useFormHook';
-
 import './NewPlace.css';
 
 const NewPlace = () => {
+  const { authentication } = useContext(AppContext);
+  const { mutate } = useQueryMutateHook<Omit<PlaceType, 'image' | 'id'>>(
+    placeServices.createPlace,
+    'New Place was added successfully!'
+  );
+
+  const navigate = useNavigate();
+
   const { formData, onInputHandler } = useFormHook(
     {
       title: {
@@ -30,13 +45,26 @@ const NewPlace = () => {
   const placeSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.isFormValid) {
-      console.log('Form is invalid!');
+      console.log('Form is not valid, abort submit.');
       return;
     }
-    console.log('Submitted!', formData.inputs);
+
+    mutate(
+      {
+        title: formData.inputs.title.value,
+        description: formData.inputs.description.value,
+        address: formData.inputs.address.value,
+        creator: authentication.userId,
+      },
+      {
+        onSuccess: () => {
+          navigate('/');
+        },
+      }
+    );
   };
 
-  console.log('formData: ', formData);
+  console.log('App component rendered', 'Context:', authentication);
 
   return (
     <form className="place-form" onSubmit={placeSubmitHandler}>

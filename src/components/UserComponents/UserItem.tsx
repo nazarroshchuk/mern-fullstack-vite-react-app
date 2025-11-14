@@ -1,30 +1,30 @@
 import * as React from 'react';
 
+import { Link } from 'react-router-dom';
+
 import type { UserType } from '../../types';
 import Avatar from '../UI/Avatar';
 import Card from '../UI/Card';
-
-import { Link } from 'react-router-dom';
+import './UserItem.css';
 
 interface UserItemProps {
   item: UserType;
 }
-import './UserItem.css';
 
 const UserItem: React.FC<UserItemProps> = ({ item }) => {
-  const { imageUrl, name, placeCount } = item;
+  const { image, name, places } = item;
 
   return (
     <li className="user-item">
       <Card className="user-item__content">
         <Link to={`/${item.id}/place`}>
           <div className="user-item__image">
-            <Avatar image={imageUrl ?? ''} alt={name} />
+            <Avatar image={image ?? ''} alt={name} />
           </div>
           <div className="user-item__info">
             <h2>{name}</h2>
             <h3>
-              {placeCount} {placeCount === 1 ? 'Place' : 'Places'}
+              {places.length} {places.length === 1 ? 'Place' : 'Places'}
             </h3>
           </div>
           <div className="user-item__hover-content">

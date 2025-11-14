@@ -1,8 +1,8 @@
-import Users from '../pages/Users';
-import UserPlaces from '../pages/UserPlaces';
-import UpdatePlace from '../pages/UpdatePlace';
-import NewPlace from '../pages/NewPlace';
 import Authenticate from '../pages/Authenticate';
+import NewPlace from '../pages/NewPlace';
+import UpdatePlace from '../pages/UpdatePlace';
+import UserPlaces from '../pages/UserPlaces';
+import Users from '../pages/Users';
 
 export const ROUTE_CONFIG = [
   {

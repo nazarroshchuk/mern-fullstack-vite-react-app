@@ -1,10 +1,10 @@
+import { useState } from 'react';
+
+import Backdrop from '../UI/Backdrop';
 import MainHeader from './MainHeader';
+import './MainNavigation.css';
 import NavLinks from './NavLinks';
 import SideDrawer from './SideDrawer';
-import { useState } from 'react';
-import Backdrop from '../UI/Backdrop';
-
-import './MainNavigation.css';
 
 const MainNavigation = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

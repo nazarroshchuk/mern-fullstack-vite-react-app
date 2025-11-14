@@ -2,7 +2,7 @@ declare module 'react-transition-group' {
   import { Component, ReactNode, RefObject } from 'react';
 
   export interface CSSTransitionProps {
-    nodeRef?: RefObject<never>;
+    nodeRef?: RefObject<HTMLElement | null>;
     in?: boolean;
     timeout: number;
     classNames: string;

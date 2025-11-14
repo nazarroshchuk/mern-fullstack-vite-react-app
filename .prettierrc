@@ -9,5 +9,9 @@
   "bracketSameLine": false,
   "arrowParens": "avoid",
   "printWidth": 80,
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": ["^react$", "^react-router-dom$", "^@?\\w", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

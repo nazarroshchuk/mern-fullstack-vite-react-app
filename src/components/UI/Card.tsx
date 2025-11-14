@@ -1,12 +1,12 @@
 import React, { type FC } from 'react';
 
+import './Card.css';
+
 interface CardProps {
   className?: string;
   style?: React.CSSProperties;
   children: React.ReactNode;
 }
-
-import './Card.css';
 
 const Card: FC<CardProps> = props => {
   return (

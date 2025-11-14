@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import UserItem from './UserItem';
-import Card from '../UI/Card';
 import type { UserType } from '../../types';
-
+import Card from '../UI/Card';
+import UserItem from './UserItem';
 import './UsersList.css';
 
 interface UsersListProps {

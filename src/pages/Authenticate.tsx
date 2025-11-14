@@ -1,15 +1,17 @@
+import { useContext, useState } from 'react';
+
 import Input from '../components/FormElements/Input';
 import Button from '../components/UI/Button';
+import Card from '../components/UI/Card';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
+import AppContext from '../context/app-context';
+import useFormHook from '../hooks/useFormHook';
+import { useHttpHook } from '../hooks/useHttpHook';
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
 } from '../utils/input-validators';
-import useFormHook from '../hooks/useFormHook';
-import Card from '../components/UI/Card';
-
 import './Authenticate.css';
-import { useContext, useState } from 'react';
-import AuthContext from '../context/auth-context';
 
 const initialFormState = {
   email: { value: '', isValid: false },
@@ -17,34 +19,41 @@ const initialFormState = {
 };
 
 const Authenticate = () => {
-  const authContext = useContext(AuthContext);
+  const { authentication } = useContext(AppContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const { formData, onInputHandler, setFormData } = useFormHook(
     initialFormState,
     false
   );
+  const { isLoading, sendRequest } = useHttpHook();
 
-  console.log('formData', formData);
-
-  const submitHandler = (e: React.FormEvent) => {
+  const authSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Submitted!', formData);
-    authContext.login();
+
+    if (isLoginMode) {
+      // Login logic
+      const response = await sendRequest('/users/login', 'POST', {
+        email: formData.inputs.email.value,
+        password: formData.inputs.password.value,
+      });
+      authentication.login(response.data.user.id);
+    } else {
+      // Signup logic
+      const response = await sendRequest('/users/signup', 'POST', {
+        name: formData.inputs.name.value,
+        email: formData.inputs.email.value,
+        password: formData.inputs.password.value,
+      });
+      authentication.login(response.data.user.id);
+    }
   };
 
   const switchModeHandler = () => {
-    console.log('Switching mode', formData.inputs);
-
     if (!isLoginMode) {
       const data = structuredClone(formData.inputs);
       delete data.name;
-      console.log('!isLoginMode', data);
       setFormData(data, data.email.isValid && data.password.isValid);
     } else {
-      console.log('isLogin', {
-        ...formData.inputs,
-        name: { value: '', isValid: false },
-      });
       setFormData(
         {
           ...formData.inputs,
@@ -58,7 +67,8 @@ const Authenticate = () => {
 
   return (
     <Card className="authentication">
-      <form onSubmit={submitHandler}>
+      {isLoading && <LoadingSpinner asOverlay />}
+      <form onSubmit={authSubmitHandler}>
         {!isLoginMode && (
           <Input
             id="name"

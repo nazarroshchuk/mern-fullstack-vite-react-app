@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 
 import ReactDOM from 'react-dom';
-import Backdrop from './Backdrop';
 import { CSSTransition } from 'react-transition-group';
 
+import Backdrop from './Backdrop';
 import './Modal.css';
 
 interface ModalProps {
@@ -50,7 +50,6 @@ const ModalOverlay: React.FC<ModalProps> = ({
 
   return ReactDOM.createPortal(
     <CSSTransition
-      // @ts-expect-error: Third-party library has incorrect type definitions
       nodeRef={contentRef}
       timeout={200}
       classNames="modal"

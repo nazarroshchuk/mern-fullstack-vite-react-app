@@ -1,5 +1,8 @@
 import React from 'react';
+
 import { Link } from 'react-router-dom';
+
+import './Button.css';
 
 interface ButtonProps {
   to?: string;
@@ -13,8 +16,6 @@ interface ButtonProps {
   children: React.ReactNode;
   classCustom?: string;
 }
-
-import './Button.css';
 
 const Button: React.FC<ButtonProps> = props => {
   if (props.href) {

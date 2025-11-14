@@ -2,9 +2,8 @@ import React, { useEffect, useReducer } from 'react';
 
 import classNames from 'classnames';
 
-import { initialInputState, inputReducer } from './inputReducer';
-
 import './Input.css';
+import { initialInputState, inputReducer } from './inputReducer';
 
 interface InputProps {
   placeholder?: string;

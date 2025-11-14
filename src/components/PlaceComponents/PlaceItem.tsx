@@ -1,21 +1,19 @@
 import React, { useContext, useState } from 'react';
 
+import AppContext from '../../context/app-context';
 import type { Place } from '../../types';
-
-import Card from '../UI/Card';
 import Button from '../UI/Button';
-import Modal from '../UI/Modal';
+import Card from '../UI/Card';
 import Map from '../UI/Map';
-
+import Modal from '../UI/Modal';
 import './PlaceItem.css';
-import AuthContext from '../../context/auth-context';
 
 interface PlaceItemProps {
   place: Place;
 }
 
 const PlaceItem: React.FC<PlaceItemProps> = ({ place }) => {
-  const authContext = useContext(AuthContext);
+  const { authentication } = useContext(AppContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -77,10 +75,10 @@ const PlaceItem: React.FC<PlaceItemProps> = ({ place }) => {
             <Button inverse onClick={toggleMapHandler}>
               View on Map
             </Button>
-            {authContext.isLoggedIn && (
+            {authentication.isLoggedIn && (
               <Button to={`/places/${place.id}`}>Edit</Button>
             )}
-            {authContext.isLoggedIn && (
+            {authentication.isLoggedIn && (
               <Button onClick={showDeleteWarningHandler}>Delete</Button>
             )}
           </div>

@@ -41,7 +41,9 @@ Currently, two official plugins are available:
 
 ## 🚀 Services used in this project
 
-### 🚀 Google maps JS API
+### 🧱 UI Library [Ant Design](https://ant.design/components/overview/)
+
+### 🗺️ Google maps JS API
 
 This project uses the Google Maps JavaScript API. To enable it, follow these steps:
 
@@ -105,8 +107,8 @@ You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-re
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x';
 import reactDom from 'eslint-plugin-react-dom';
+import reactX from 'eslint-plugin-react-x';
 
 export default defineConfig([
   globalIgnores(['dist']),

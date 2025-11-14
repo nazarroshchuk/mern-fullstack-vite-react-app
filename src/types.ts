@@ -2,8 +2,8 @@ export interface UserType {
   id: string;
   name: string;
   email?: string;
-  imageUrl?: string;
-  placeCount: number;
+  image?: string;
+  places: string[];
 }
 
 export interface Place {
@@ -38,3 +38,25 @@ declare global {
     };
   }
 }
+
+export const NOTIFICATION_TYPE = {
+  INFO: 'info',
+  SUCCESS: 'success',
+  WARNING: 'warning',
+  ERROR: 'error',
+} as const;
+
+export type NotificationType =
+  (typeof NOTIFICATION_TYPE)[keyof typeof NOTIFICATION_TYPE];
+
+export type ShowNotificationFunction = (
+  message: string,
+  type: NotificationType,
+  duration?: number | null
+) => void;
+
+export const NOTIFICATION_DURATION = {
+  SHORT: 2000,
+  MEDIUM: 4000,
+  LONG: 6000,
+};
