@@ -21,7 +21,8 @@ export const ROUTE_CONFIG = [
     showInNav: true,
   },
   {
-    path: '/places',
+    path: 'user/:userId/places/',
+    getPathWithUserId: (userId: string) => `user/${userId}/places/`,
     navLink: '/places',
     element: <UserPlaces />,
     title: 'My places',

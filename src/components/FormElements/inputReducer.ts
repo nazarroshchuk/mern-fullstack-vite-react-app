@@ -1,7 +1,7 @@
 import { validate } from '../../utils/input-validators';
 
 interface InputState {
-  value: string;
+  value: string | File | null;
   isValid: boolean;
   isTouched: boolean;
   errorText: string;
@@ -10,8 +10,8 @@ interface InputState {
 type InputAction =
   | {
       type: 'CHANGE';
-      val: string;
-      validators: ((value: string) => {
+      val: string | File;
+      validators: ((value: string | File | null) => {
         isValid: boolean;
         errorText: string;
       })[];
@@ -56,7 +56,7 @@ export const inputReducer = (
 };
 
 export const initialInputState = (
-  value: string | undefined,
+  value: string | null | File,
   isValid: boolean | undefined
 ) => ({
   value: value || '',

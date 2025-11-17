@@ -4,7 +4,7 @@ import {
   NOTIFICATION_TYPE,
   type NotificationType,
   type ShowNotificationFunction,
-} from '../types';
+} from '../types/types';
 
 interface AppContextInterface {
   authentication: {

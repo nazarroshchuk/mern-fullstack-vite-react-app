@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type { UserType } from '../../types';
+import type { UserType } from '../../types/data-types';
 import Card from '../UI/Card';
 import UserItem from './UserItem';
 import './UsersList.css';
@@ -9,7 +9,7 @@ interface UsersListProps {
   items: UserType[];
 }
 
-const UsersList: React.FC<UsersListProps> = ({ items }) => {
+const UsersList: React.FC<UsersListProps> = ({ items = [] }) => {
   if (!items.length) {
     return (
       <div className="center">

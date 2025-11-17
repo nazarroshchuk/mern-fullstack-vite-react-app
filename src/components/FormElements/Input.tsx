@@ -7,8 +7,12 @@ import { initialInputState, inputReducer } from './inputReducer';
 
 interface InputProps {
   placeholder?: string;
-  value?: string;
-  onChange?: (id: string, value: string, isValid: boolean) => void;
+  value?: string | File | null;
+  onChange?: (
+    id: string,
+    value: string | File | null,
+    isValid: boolean
+  ) => void;
   type?: string;
   className?: string;
   label?: string;
@@ -16,7 +20,10 @@ interface InputProps {
   id: string;
   rows?: number;
   required?: boolean;
-  validators?: ((value: string) => { isValid: boolean; errorText: string })[];
+  validators?: ((value: string | File | null) => {
+    isValid: boolean;
+    errorText: string;
+  })[];
   isValid?: boolean;
 }
 
@@ -35,7 +42,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const [inputState, dispatch] = useReducer(
     inputReducer,
-    initialInputState(value, isValid)
+    initialInputState(value as string, isValid)
   );
 
   const changeHandler = (
@@ -63,7 +70,7 @@ const Input: React.FC<InputProps> = ({
           id={id}
           type={type}
           placeholder={placeholder}
-          value={inputState.value}
+          value={inputState.value as string}
           onChange={changeHandler}
           required={required}
           onTouchEnd={() => dispatch({ type: 'TOUCH' })}
@@ -75,7 +82,7 @@ const Input: React.FC<InputProps> = ({
           id={id}
           rows={rows || 4}
           placeholder={placeholder}
-          value={inputState.value}
+          value={inputState.value as string}
           onChange={changeHandler}
           onTouchEnd={() => dispatch({ type: 'TOUCH' })}
           onBlur={() => dispatch({ type: 'TOUCH' })}

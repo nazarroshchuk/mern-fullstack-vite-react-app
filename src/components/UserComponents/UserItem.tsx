@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import type { UserType } from '../../types';
+import type { UserType } from '../../types/data-types';
 import Avatar from '../UI/Avatar';
 import Card from '../UI/Card';
 import './UserItem.css';
@@ -19,7 +19,7 @@ const UserItem: React.FC<UserItemProps> = ({ item }) => {
       <Card className="user-item__content">
         <Link to={`/${item.id}/place`}>
           <div className="user-item__image">
-            <Avatar image={image ?? ''} alt={name} />
+            <Avatar image={`http://localhost:4001/${image}`} alt={name} />
           </div>
           <div className="user-item__info">
             <h2>{name}</h2>

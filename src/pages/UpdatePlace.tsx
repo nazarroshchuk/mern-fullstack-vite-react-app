@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Input from '../components/FormElements/Input';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
-import { DUMMY_PLACES } from '../constants/dummy-data';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
 import useFormHook from '../hooks/useFormHook';
+import { useQueryHook } from '../hooks/useQueryHook';
+import { useQueryMutateHook } from '../hooks/useQueryMutateHook';
+import { placeServices } from '../services/place-services';
+import { QUERY_KEYS } from '../services/react-query';
 import {
   VALIDATOR_MAXLENGTH,
   VALIDATOR_MINLENGTH,
@@ -16,37 +20,56 @@ import './UpdatePlace.css';
 
 const UpdatePlace = () => {
   const { placeId } = useParams();
+  const navigate = useNavigate();
 
-  const place = DUMMY_PLACES.find(p => p.id === placeId);
+  const { data, isFetching } = useQueryHook(
+    [QUERY_KEYS.places, `${placeId}`],
+    () => placeServices.getPlaceById(placeId!)
+  );
 
-  const { formData, onInputHandler, setFormData } = useFormHook(
+  const { mutate: updatePlace, isPending } = useQueryMutateHook<{
+    id: string;
+    title: string;
+    description: string;
+  }>(placeServices.updatePlace);
+
+  const { place } = data || {};
+
+  const { formData, onInputHandler } = useFormHook(
     {
-      title: { value: place?.title || '', isValid: false },
-      description: { value: place?.description || '', isValid: false },
+      title: { value: '', isValid: false },
+      description: { value: '', isValid: false },
     },
     false
   );
 
-  useEffect(() => {
-    if (place) {
-      setFormData(
-        {
-          title: { value: place?.title || '', isValid: true },
-          description: { value: place?.description || '', isValid: true },
-        },
-        true
-      );
-    }
-  }, [setFormData, place]);
-
   const onSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.isFormValid) {
-      console.log('Form is invalid!');
-      return;
+    if (formData.isFormValid) {
+      updatePlace(
+        {
+          id: placeId!,
+          title: formData.inputs.title.value,
+          description: formData.inputs.description.value,
+        },
+        {
+          onSuccess: () => {
+            navigate(`/${place?.creator}/place`);
+          },
+        }
+      );
     }
-    console.log('Submitted!', formData.inputs);
   };
+
+  if (isFetching) {
+    return (
+      <div className="center">
+        <Card>
+          <LoadingSpinner asOverlay />
+        </Card>
+      </div>
+    );
+  }
 
   if (!place) {
     return (
@@ -63,12 +86,12 @@ const UpdatePlace = () => {
       <Input
         id="title"
         type="text"
-        label="title"
+        label="Title"
         validators={[VALIDATOR_REQUIRE, VALIDATOR_MAXLENGTH(50)]}
         onChange={onInputHandler}
         required
-        value={formData.inputs.title?.value || ''}
-        isValid={formData.inputs.title?.isValid || false}
+        value={place.title ?? ''}
+        isValid={true}
       />
       <Input
         id="description"
@@ -78,10 +101,10 @@ const UpdatePlace = () => {
         validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_MAXLENGTH(200)]}
         onChange={onInputHandler}
         required
-        value={formData.inputs.description?.value || ''}
-        isValid={formData.inputs.description?.isValid || false}
+        value={place.description ?? ''}
+        isValid={true}
       />
-      <Button type="submit" disabled={!formData.isFormValid}>
+      <Button type="submit" disabled={!formData.isFormValid || isPending}>
         UPDATE PLACE
       </Button>
     </form>

@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import type { AxiosResponse } from 'axios';
 
 import AppContext from '../context/app-context';
-import { NOTIFICATION_TYPE } from '../types';
+import { NOTIFICATION_TYPE } from '../types/types';
 import { getErrorMessage } from '../utils/error-normalise';
 
 export const useQueryMutateHook = <T>(
@@ -15,7 +15,7 @@ export const useQueryMutateHook = <T>(
   const { notification } = useContext(AppContext);
   const {
     data: response,
-    isPending: isFetching,
+    isPending,
     mutate,
     mutateAsync,
     error,
@@ -40,11 +40,11 @@ export const useQueryMutateHook = <T>(
         3000
       );
     }
-  }, [error, notification]);
+  }, [error]);
 
   return {
     data: response?.data,
-    isFetching,
+    isPending,
     mutate,
     error,
     mutateAsync,

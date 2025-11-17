@@ -1,7 +1,10 @@
 import React, { useContext, useState } from 'react';
 
 import AppContext from '../../context/app-context';
-import type { Place } from '../../types';
+import { useQueryMutateHook } from '../../hooks/useQueryMutateHook';
+import { placeServices } from '../../services/place-services';
+import { QUERY_KEYS, queryClient } from '../../services/react-query';
+import type { PlaceType } from '../../types/data-types';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
 import Map from '../UI/Map';
@@ -9,20 +12,32 @@ import Modal from '../UI/Modal';
 import './PlaceItem.css';
 
 interface PlaceItemProps {
-  place: Place;
+  place: PlaceType;
 }
 
 const PlaceItem: React.FC<PlaceItemProps> = ({ place }) => {
   const { authentication } = useContext(AppContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const { mutate: deletePlace, isPending: isDeletingPlace } =
+    useQueryMutateHook(placeServices.deletePlace);
 
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
   const cancelDeleteHandler = () => setShowConfirmModal(false);
+
   const confirmDeleteHandler = () => {
-    console.log('Deleting ...');
+    deletePlace(place.id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.places, `${place.creator}`],
+        });
+      },
+    });
     setShowConfirmModal(false);
   };
+
+  const isAllowedToChange =
+    authentication.isLoggedIn && authentication.userId === place.creator;
 
   const toggleMapHandler = () => setShowMap(state => !state);
 
@@ -50,7 +65,11 @@ const PlaceItem: React.FC<PlaceItemProps> = ({ place }) => {
             <Button inverse onClick={cancelDeleteHandler}>
               Cancel
             </Button>
-            <Button danger onClick={confirmDeleteHandler}>
+            <Button
+              danger
+              onClick={confirmDeleteHandler}
+              disabled={isDeletingPlace}
+            >
               Delete
             </Button>
           </>
@@ -64,7 +83,7 @@ const PlaceItem: React.FC<PlaceItemProps> = ({ place }) => {
       <li className="place-item">
         <Card className="place-item__content">
           <div className="place-item__image">
-            <img src={place.imageUrl} alt={place.title} />
+            <img src={place.image} alt={place.title} />
           </div>
           <div className="place-item__info">
             <h2>{place.title}</h2>
@@ -75,10 +94,10 @@ const PlaceItem: React.FC<PlaceItemProps> = ({ place }) => {
             <Button inverse onClick={toggleMapHandler}>
               View on Map
             </Button>
-            {authentication.isLoggedIn && (
+            {isAllowedToChange && (
               <Button to={`/places/${place.id}`}>Edit</Button>
             )}
-            {authentication.isLoggedIn && (
+            {isAllowedToChange && (
               <Button onClick={showDeleteWarningHandler}>Delete</Button>
             )}
           </div>

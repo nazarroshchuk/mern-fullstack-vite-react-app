@@ -4,7 +4,7 @@ import { type AxiosRequestConfig } from 'axios';
 
 import AppContext from '../context/app-context';
 import { Axios } from '../services/axios-service';
-import { NOTIFICATION_TYPE } from '../types';
+import { NOTIFICATION_TYPE } from '../types/types';
 import { getErrorMessage } from '../utils/error-normalise';
 
 export const useHttpHook = <T>() => {

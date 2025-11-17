@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { AxiosResponse } from 'axios';
 
 import AppContext from '../context/app-context';
-import { NOTIFICATION_TYPE } from '../types';
+import { NOTIFICATION_TYPE } from '../types/types';
 import { getErrorMessage } from '../utils/error-normalise';
 
 export const useQueryHook = (
@@ -32,7 +32,7 @@ export const useQueryHook = (
         3000
       );
     }
-  }, [error, notification]);
+  }, [error]);
 
   return { data: response?.data, isFetching, error };
 };

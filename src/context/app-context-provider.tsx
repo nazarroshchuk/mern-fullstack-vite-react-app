@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { NOTIFICATION_TYPE, type NotificationType } from '../types';
+import { NOTIFICATION_TYPE, type NotificationType } from '../types/types';
 import AppContext from './app-context';
 
 const initialNotificationState = {
@@ -25,6 +25,7 @@ export const AppContextProvider = ({
   };
   const logout = () => {
     setUserId(null);
+    setIsLoggedIn(false);
   };
 
   const showNotification = (
@@ -45,8 +46,9 @@ export const AppContextProvider = ({
       ...initialNotificationState,
       type: prevState.type,
     }));
-    setIsLoggedIn(false);
   };
+
+  console.log({ userId }, 'context userId');
 
   return (
     <AppContext

@@ -8,7 +8,6 @@ import AppContext from '../context/app-context';
 import useFormHook from '../hooks/useFormHook';
 import { useQueryMutateHook } from '../hooks/useQueryMutateHook';
 import { placeServices } from '../services/place-services';
-import type { PlaceType } from '../types/data-types';
 import {
   VALIDATOR_MAXLENGTH,
   VALIDATOR_MINLENGTH,
@@ -17,7 +16,7 @@ import './NewPlace.css';
 
 const NewPlace = () => {
   const { authentication } = useContext(AppContext);
-  const { mutate } = useQueryMutateHook<Omit<PlaceType, 'image' | 'id'>>(
+  const { mutate } = useQueryMutateHook(
     placeServices.createPlace,
     'New Place was added successfully!'
   );
@@ -63,8 +62,6 @@ const NewPlace = () => {
       }
     );
   };
-
-  console.log('App component rendered', 'Context:', authentication);
 
   return (
     <form className="place-form" onSubmit={placeSubmitHandler}>

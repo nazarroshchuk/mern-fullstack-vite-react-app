@@ -33,11 +33,10 @@ const Users = () => {
       </Card>
     );
   }
-  console.log('Users data:', data.users);
 
   return (
     <div>
-      <UsersList items={data.users} />
+      <UsersList items={data?.users || []} />
     </div>
   );
 };

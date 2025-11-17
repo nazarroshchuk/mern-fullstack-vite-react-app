@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 
+import { ImageUpload } from '../components/FormElements/ImageUpload';
 import Input from '../components/FormElements/Input';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
@@ -39,11 +40,20 @@ const Authenticate = () => {
       authentication.login(response.data.user.id);
     } else {
       // Signup logic
-      const response = await sendRequest('/users/signup', 'POST', {
-        name: formData.inputs.name.value,
-        email: formData.inputs.email.value,
-        password: formData.inputs.password.value,
-      });
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.inputs.name.value as string);
+      formDataToSend.append('email', formData.inputs.email.value as string);
+      formDataToSend.append(
+        'password',
+        formData.inputs.password.value as string
+      );
+      formDataToSend.append('image', formData.inputs.image.value as Blob);
+
+      const response = await sendRequest(
+        '/users/signup',
+        'POST',
+        formDataToSend
+      );
       authentication.login(response.data.user.id);
     }
   };
@@ -58,12 +68,15 @@ const Authenticate = () => {
         {
           ...formData.inputs,
           name: { value: '', isValid: false },
+          image: { value: null, isValid: false },
         },
         false
       );
     }
     setIsLoginMode(prevMode => !prevMode);
   };
+
+  console.log(formData);
 
   return (
     <Card className="authentication">
@@ -107,6 +120,14 @@ const Authenticate = () => {
           onChange={onInputHandler}
           validators={[VALIDATOR_MINLENGTH(8)]}
         />
+        {!isLoginMode && (
+          <ImageUpload
+            center
+            id="image"
+            errorText="Choose a valid format of image."
+            onChange={onInputHandler}
+          />
+        )}
         <Button type="submit" disabled={!formData.isFormValid}>
           {isLoginMode ? 'Login' : 'Signup'}
         </Button>

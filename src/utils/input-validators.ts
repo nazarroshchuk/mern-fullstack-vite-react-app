@@ -23,8 +23,11 @@ export const VALIDATOR_FILE = (value: File): ValidationResult => {
 
 export const VALIDATOR_MINLENGTH =
   (minLength: number) =>
-  (value: string): ValidationResult => {
-    const isValid = value.trim().length >= minLength;
+  (value: string | File | null): ValidationResult => {
+    let isValid = false;
+    if (typeof value === 'string') {
+      isValid = value?.trim().length >= minLength;
+    }
     return {
       isValid,
       errorText: isValid ? '' : `Minimum length is ${minLength} characters`,
@@ -61,8 +64,13 @@ export const VALIDATOR_MAX =
     };
   };
 
-export const VALIDATOR_EMAIL = (value: string): ValidationResult => {
-  const isValid = /^\S+@\S+\.\S+$/.test(value);
+export const VALIDATOR_EMAIL = (
+  value: string | File | null
+): ValidationResult => {
+  let isValid = false;
+  if (typeof value === 'string') {
+    isValid = /^\S+@\S+\.\S+$/.test(value);
+  }
   return {
     isValid,
     errorText: isValid ? '' : 'Please enter a valid email address',
@@ -71,8 +79,8 @@ export const VALIDATOR_EMAIL = (value: string): ValidationResult => {
 
 // Helper function to run multiple validations
 export const validate = (
-  value: string,
-  validators: ((value: string) => ValidationResult)[]
+  value: string | File | null,
+  validators: ((value: string | File | null) => ValidationResult)[]
 ): ValidationResult => {
   for (const validator of validators) {
     const result = validator(value);

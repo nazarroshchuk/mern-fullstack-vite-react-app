@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import appContext from '../../context/app-context';
-import { type NotificationType } from '../../types';
+import { type NotificationType } from '../../types/types';
 import Card from './Card';
 import './Notifications.css';
 

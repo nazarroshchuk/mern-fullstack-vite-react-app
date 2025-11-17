@@ -4,7 +4,7 @@ type InputChangeActionType = {
   type: 'INPUT_CHANGE';
   payload: {
     id: string;
-    value: string;
+    value: string | File | null;
     isValid: boolean;
   };
 };
@@ -20,7 +20,7 @@ type SetDataActionType = {
 type InputChangeActions = InputChangeActionType | SetDataActionType;
 
 type InputState = {
-  value: string;
+  value: string | File | null;
   isValid: boolean;
 };
 
@@ -54,9 +54,10 @@ export const formReducer = (state: FormState, action: InputChangeActions) => {
       };
     }
     case 'SET_DATA': {
+      const { inputs, isFormValid } = action.payload;
       return {
-        inputs: action.payload.inputs,
-        isFormValid: action.payload.isFormValid,
+        inputs,
+        isFormValid,
       };
     }
     default:
@@ -74,8 +75,7 @@ const useFormHook = (
   });
 
   const onInputHandler = useCallback(
-    (id: string, value: string, isValid: boolean) => {
-      console.log('id, value, isValid: ', id, value, isValid);
+    (id: string, value: string | File | null, isValid: boolean) => {
       dispatch({
         type: 'INPUT_CHANGE',
         payload: { value, id, isValid },

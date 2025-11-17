@@ -3,6 +3,8 @@ import { QueryClient } from '@tanstack/react-query';
 export const QUERY_KEYS = {
   users: 'users',
   places: 'places',
+  getPlaceByUserId: 'getPlaceByUserId',
+  getPlacesById: 'getPlacesById',
 };
 
 export const defaultQueryClientOptions = {

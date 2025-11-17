@@ -1,21 +1,3 @@
-export interface UserType {
-  id: string;
-  name: string;
-  email?: string;
-  image?: string;
-  places: string[];
-}
-
-export interface Place {
-  id: string;
-  address: string;
-  description: string;
-  creatorId: string;
-  title: string;
-  location: { lat: number; lng: number };
-  imageUrl?: string;
-}
-
 // Define specific types for Google Maps API
 interface GoogleMapOptions {
   center: { lat: number; lng: number };

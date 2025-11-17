@@ -13,9 +13,16 @@ const NavLinks = () => {
 
   return (
     <ul className="nav-links">
-      {navLinks.map((link, index) => (
-        <li key={link.path || index}>
-          <NavLink to={link.navLink as string} end>
+      {navLinks.map(link => (
+        <li key={link.path || link.title}>
+          <NavLink
+            to={
+              link.getPathWithUserId
+                ? link.getPathWithUserId(context.authentication.userId!)
+                : link.path
+            }
+            end
+          >
             <span>{link.title}</span>
           </NavLink>
         </li>
