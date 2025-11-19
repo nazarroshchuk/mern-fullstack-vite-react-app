@@ -2,12 +2,14 @@ import { useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { ImageUpload } from '../components/FormElements/ImageUpload';
 import Input from '../components/FormElements/Input';
 import Button from '../components/UI/Button';
 import AppContext from '../context/app-context';
 import useFormHook from '../hooks/useFormHook';
 import { useQueryMutateHook } from '../hooks/useQueryMutateHook';
 import { placeServices } from '../services/place-services';
+import { createFormData } from '../utils/form-data';
 import {
   VALIDATOR_MAXLENGTH,
   VALIDATOR_MINLENGTH,
@@ -37,6 +39,10 @@ const NewPlace = () => {
         value: '',
         isValid: false,
       },
+      image: {
+        value: null,
+        isValid: false,
+      },
     },
     false
   );
@@ -48,19 +54,11 @@ const NewPlace = () => {
       return;
     }
 
-    mutate(
-      {
-        title: formData.inputs.title.value,
-        description: formData.inputs.description.value,
-        address: formData.inputs.address.value,
-        creator: authentication.userId,
+    mutate(createFormData(formData, { creator: authentication.userId! }), {
+      onSuccess: () => {
+        navigate('/');
       },
-      {
-        onSuccess: () => {
-          navigate('/');
-        },
-      }
-    );
+    });
   };
 
   return (
@@ -93,6 +91,12 @@ const NewPlace = () => {
         required
         validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_MAXLENGTH(100)]}
         onChange={onInputHandler}
+      />
+      <ImageUpload
+        id="image"
+        center
+        onChange={onInputHandler}
+        errorText="Please provide an image."
       />
       <Button type="submit" disabled={!formData.isFormValid}>
         Add place

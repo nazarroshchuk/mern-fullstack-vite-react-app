@@ -8,6 +8,7 @@ interface Props {
   center?: boolean;
   onChange: (id: string, file: File | null, isValid: boolean) => void;
   errorText: string;
+  imagePlaceholder?: string;
 }
 
 export const ImageUpload: React.FC<Props> = ({
@@ -15,12 +16,18 @@ export const ImageUpload: React.FC<Props> = ({
   center,
   onChange,
   errorText,
+  imagePlaceholder,
   ...props
 }) => {
   const ref = React.useRef<HTMLInputElement>(null);
   const [file, setFile] = React.useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
+
   const [isValid, setIsValid] = React.useState<boolean>(false);
+
+  const imageUrl = previewUrl
+    ? previewUrl
+    : `${import.meta.env.VITE_IMAGE_UPLOAD_URL}/${imagePlaceholder}`;
 
   const chooseFileHandler = () => {
     ref.current?.click();
@@ -62,14 +69,14 @@ export const ImageUpload: React.FC<Props> = ({
         className="input-controll"
         style={{ display: 'none' }}
         ref={ref}
-        accept={'.jpg,.png,.jpeg'}
+        accept={'.jpg,.png,.jpeg, .webp'}
         onChange={pickedHandler}
         {...props}
       />
       <div className={`image-upload ${center && 'center'}`}>
         <div className="image-upload__preview">
-          {previewUrl && <img src={previewUrl ?? ''} alt="" />}
-          {!previewUrl && <p>Please pick an image.</p>}
+          {imageUrl && <img src={imageUrl ?? ''} alt="" />}
+          {!imageUrl && <p>Please pick an image.</p>}
         </div>
         <Button type="button" onClick={chooseFileHandler}>
           Choose image

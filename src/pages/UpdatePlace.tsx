@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { ImageUpload } from '../components/FormElements/ImageUpload';
 import Input from '../components/FormElements/Input';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
@@ -11,6 +12,7 @@ import { useQueryHook } from '../hooks/useQueryHook';
 import { useQueryMutateHook } from '../hooks/useQueryMutateHook';
 import { placeServices } from '../services/place-services';
 import { QUERY_KEYS } from '../services/react-query';
+import { createFormData } from '../utils/form-data';
 import {
   VALIDATOR_MAXLENGTH,
   VALIDATOR_MINLENGTH,
@@ -27,11 +29,9 @@ const UpdatePlace = () => {
     () => placeServices.getPlaceById(placeId!)
   );
 
-  const { mutate: updatePlace, isPending } = useQueryMutateHook<{
-    id: string;
-    title: string;
-    description: string;
-  }>(placeServices.updatePlace);
+  const { mutate: updatePlace, isPending } = useQueryMutateHook(
+    placeServices.updatePlace
+  );
 
   const { place } = data || {};
 
@@ -39,6 +39,7 @@ const UpdatePlace = () => {
     {
       title: { value: '', isValid: false },
       description: { value: '', isValid: false },
+      image: { value: '', isValid: false },
     },
     false
   );
@@ -46,18 +47,11 @@ const UpdatePlace = () => {
   const onSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.isFormValid) {
-      updatePlace(
-        {
-          id: placeId!,
-          title: formData.inputs.title.value,
-          description: formData.inputs.description.value,
+      updatePlace(createFormData(formData, { id: placeId! }), {
+        onSuccess: () => {
+          navigate(`/${place?.creator}/place`);
         },
-        {
-          onSuccess: () => {
-            navigate(`/${place?.creator}/place`);
-          },
-        }
-      );
+      });
     }
   };
 
@@ -103,6 +97,13 @@ const UpdatePlace = () => {
         required
         value={place.description ?? ''}
         isValid={true}
+      />
+      <ImageUpload
+        id="image"
+        center
+        onChange={onInputHandler}
+        errorText="Please upload an image"
+        imagePlaceholder={place.image}
       />
       <Button type="submit" disabled={!formData.isFormValid || isPending}>
         UPDATE PLACE

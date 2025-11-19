@@ -5,11 +5,27 @@ interface ValidationResult {
   errorText: string;
 }
 
-export const VALIDATOR_REQUIRE = (value: string): ValidationResult => {
-  const isValid = value.trim().length > 0;
+export const VALIDATOR_REQUIRE = (
+  value: string | File | null
+): ValidationResult => {
+  if (value instanceof File) {
+    return {
+      isValid: true,
+      errorText: '',
+    };
+  }
+
+  if (typeof value === 'string') {
+    const isValid = value.trim().length > 0;
+    return {
+      isValid,
+      errorText: isValid ? '' : 'This field is required',
+    };
+  }
+
   return {
-    isValid,
-    errorText: isValid ? '' : 'This field is required',
+    isValid: false,
+    errorText: 'This field is required',
   };
 };
 
@@ -36,11 +52,17 @@ export const VALIDATOR_MINLENGTH =
 
 export const VALIDATOR_MAXLENGTH =
   (maxLength: number) =>
-  (value: string): ValidationResult => {
-    const isValid = value.trim().length <= maxLength;
+  (value: string | File | null): ValidationResult => {
+    if (typeof value === 'string') {
+      const isValid = value.trim().length <= maxLength;
+      return {
+        isValid,
+        errorText: isValid ? '' : `Maximum length is ${maxLength} characters`,
+      };
+    }
     return {
-      isValid,
-      errorText: isValid ? '' : `Maximum length is ${maxLength} characters`,
+      isValid: false,
+      errorText: `Type mismatch: expected a string`,
     };
   };
 

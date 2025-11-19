@@ -8,6 +8,7 @@ import LoadingSpinner from '../components/UI/LoadingSpinner';
 import AppContext from '../context/app-context';
 import useFormHook from '../hooks/useFormHook';
 import { useHttpHook } from '../hooks/useHttpHook';
+import { createFormData } from '../utils/form-data';
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -40,19 +41,10 @@ const Authenticate = () => {
       authentication.login(response.data.user.id);
     } else {
       // Signup logic
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.inputs.name.value as string);
-      formDataToSend.append('email', formData.inputs.email.value as string);
-      formDataToSend.append(
-        'password',
-        formData.inputs.password.value as string
-      );
-      formDataToSend.append('image', formData.inputs.image.value as Blob);
-
       const response = await sendRequest(
         '/users/signup',
         'POST',
-        formDataToSend
+        createFormData(formData)
       );
       authentication.login(response.data.user.id);
     }

@@ -24,7 +24,7 @@ type InputState = {
   isValid: boolean;
 };
 
-type FormState = {
+export type FormState = {
   inputs: {
     [key: string]: InputState;
   };
