@@ -29,7 +29,7 @@ export const ImageUpload: React.FC<Props> = ({
   const imageUrl = previewUrl
     ? previewUrl
     : imagePlaceholder
-      ? `${import.meta.env.VITE_IMAGE_UPLOAD_URL}/${imagePlaceholder}`
+      ? imagePlaceholder
       : null;
 
   const chooseFileHandler = () => {
