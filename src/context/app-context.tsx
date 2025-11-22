@@ -10,7 +10,7 @@ interface AppContextInterface {
   authentication: {
     isLoggedIn: boolean;
     userId: string | null;
-    login: (userId: string) => void;
+    login: (userId: string, token: string) => void;
     logout: () => void;
   };
   notification: {

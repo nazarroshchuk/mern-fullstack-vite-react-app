@@ -26,7 +26,8 @@ const UpdatePlace = () => {
 
   const { data, isFetching } = useQueryHook(
     [QUERY_KEYS.places, `${placeId}`],
-    () => placeServices.getPlaceById(placeId!)
+    () => placeServices.getPlaceById(placeId!),
+    { refetchOnMount: 'always' }
   );
 
   const { mutate: updatePlace, isPending } = useQueryMutateHook(
@@ -74,6 +75,8 @@ const UpdatePlace = () => {
       </div>
     );
   }
+
+  console.log({ formData });
 
   return (
     <form className="place-form" onSubmit={onSubmitHandler}>

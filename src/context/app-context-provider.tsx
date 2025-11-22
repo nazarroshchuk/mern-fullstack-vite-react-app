@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
+import { useAuthHook } from '../hooks/useAuthHook';
 import { NOTIFICATION_TYPE, type NotificationType } from '../types/types';
 import AppContext from './app-context';
 
@@ -15,45 +16,32 @@ export const AppContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [userId, setUserId] = useState<string | null>(null);
   const [notification, setNotification] = useState(initialNotificationState);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { token, userId, login, logout } = useAuthHook();
 
-  const login = (userId: string) => {
-    setUserId(userId);
-    setIsLoggedIn(true);
-  };
-  const logout = () => {
-    setUserId(null);
-    setIsLoggedIn(false);
-  };
+  const showNotification = useCallback(
+    (message: string, type: NotificationType, duration?: number | null) => {
+      setNotification({
+        type,
+        message,
+        duration: duration ?? null,
+        isOpen: true,
+      });
+    },
+    []
+  );
 
-  const showNotification = (
-    message: string,
-    type: NotificationType,
-    duration?: number | null
-  ) => {
-    setNotification({
-      type,
-      message,
-      duration: duration ?? null,
-      isOpen: true,
-    });
-  };
-
-  const hideNotification = () => {
+  const hideNotification = useCallback(() => {
     setNotification(prevState => ({
       ...initialNotificationState,
       type: prevState.type,
     }));
-  };
-
-  console.log({ userId }, 'context userId');
+  }, []);
 
   return (
     <AppContext
       value={{
-        authentication: { isLoggedIn, login, logout, userId },
+        authentication: { isLoggedIn: !!token, login, logout, userId },
         notification: {
           ...notification,
           showNotification,

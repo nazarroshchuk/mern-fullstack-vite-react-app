@@ -5,18 +5,17 @@ import axios, {
 } from 'axios';
 
 // axios instance
-// const controller = new AbortController();
-// axios.defaults.signal = controller.signal;
+const controller = new AbortController();
+axios.defaults.signal = controller.signal;
 
 export const Axios = () => {
-  // const token = getTokenFromLocalStorage();
-
-  // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  const token = localStorage.getItem('token');
 
   // if (!token) {
   //   controller.abort();
-  //   // window.location.replace(noAuthenticationRedirectUrl);
   // }
+
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   const api = axios.create({
     withCredentials: true,

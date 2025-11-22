@@ -34,6 +34,8 @@ const Users = () => {
     );
   }
 
+  console.log('Loading Users component');
+
   return (
     <div>
       <UsersList items={data?.users || []} />

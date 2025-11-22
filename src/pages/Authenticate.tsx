@@ -38,7 +38,7 @@ const Authenticate = () => {
         email: formData.inputs.email.value,
         password: formData.inputs.password.value,
       });
-      authentication.login(response.data.user.id);
+      authentication.login(response.data.userId, response.data.token);
     } else {
       // Signup logic
       const response = await sendRequest(
@@ -46,7 +46,7 @@ const Authenticate = () => {
         'POST',
         createFormData(formData)
       );
-      authentication.login(response.data.user.id);
+      authentication.login(response.data.userId, response.data.token);
     }
   };
 

@@ -23,11 +23,14 @@ export const ImageUpload: React.FC<Props> = ({
   const [file, setFile] = React.useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
 
-  const [isValid, setIsValid] = React.useState<boolean>(false);
+  const [isValid, setIsValid] = React.useState<boolean>(!!imagePlaceholder);
 
+  // Only construct imageUrl if we're not skipping preview and have a preview or placeholder
   const imageUrl = previewUrl
     ? previewUrl
-    : `${import.meta.env.VITE_IMAGE_UPLOAD_URL}/${imagePlaceholder}`;
+    : imagePlaceholder
+      ? `${import.meta.env.VITE_IMAGE_UPLOAD_URL}/${imagePlaceholder}`
+      : null;
 
   const chooseFileHandler = () => {
     ref.current?.click();
@@ -60,6 +63,14 @@ export const ImageUpload: React.FC<Props> = ({
     };
     fileReader.readAsDataURL(file);
   }, [file]);
+
+  useEffect(() => {
+    if (imagePlaceholder && !file) {
+      // Send the existing image filename as a string
+      onChange(id, null, true);
+      setIsValid(true);
+    }
+  }, [imagePlaceholder, onChange, id, file]);
 
   return (
     <div className="image-upload-wrapper">
