@@ -1,8 +1,10 @@
-import Authenticate from '../pages/Authenticate';
-import NewPlace from '../pages/NewPlace';
-import UpdatePlace from '../pages/UpdatePlace';
-import UserPlaces from '../pages/UserPlaces';
-import Users from '../pages/Users';
+import React from 'react';
+
+const Authenticate = React.lazy(() => import('../pages/Authenticate'));
+const NewPlace = React.lazy(() => import('../pages/NewPlace'));
+const UpdatePlace = React.lazy(() => import('../pages/UpdatePlace'));
+const UserPlaces = React.lazy(() => import('../pages/UserPlaces'));
+const Users = React.lazy(() => import('../pages/Users'));
 
 export const ROUTE_CONFIG = [
   {
